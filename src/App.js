@@ -5,34 +5,21 @@ import Person from "./Person/Person";
 class App extends Component {
     state = {
         persons: [
-            {name: "Matias", age: 31},
-            {name: "Paulina", age: 32},
-            {name: "Mili", age: 2},
-            {name: "Choli", age: 5}
+            {id: 'p1', name: "Matias", age: 31},
+            {id: 'p2', name: "Paulina", age: 32},
+            {id: 'p3', name: "Mili", age: 2},
+            {id: 'p4', name: "Choli", age: 5}
         ],
         showPersons: false
     }
 
-    switchNameHandler = (newName) => {
-        this.setState({
-            persons: [
-                {name: newName, age: 31},
-                {name: "Paulina", age: 32},
-                {name: "Mili", age: 3},
-                {name: "Choli", age: 6}
-            ]
-        })
-    }
-
-    nameChangedHandler = event => {
-        this.setState({
-            persons: [
-                {name: "Matias", age: 31},
-                {name: "Paulina", age: 32},
-                {name: event.target.value, age: 3},
-                {name: "Choli", age: 6}
-            ]
-        })
+    nameChangedHandler = (event, id) => {
+        const changedPersonIndex = this.state.persons.findIndex((p) => p.id === id)
+        const changedPerson = {...this.state.persons[changedPersonIndex]}
+        changedPerson.name = event.target.value
+        const persons = [...this.state.persons]
+        persons[changedPersonIndex] = changedPerson
+        this.setState({persons: persons})
     }
 
     togglePersonsHandler = () => (this.setState({showPersons: !this.state.showPersons}))
@@ -64,6 +51,8 @@ class App extends Component {
                                     name={person.name}
                                     age={person.age}
                                     click={() => this.deletePersonHandler(index)}
+                                    changed={event => this.nameChangedHandler(event, person.id)}
+                                    key={person.id}
                                 />
                                 ))}
                 </div>
