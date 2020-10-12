@@ -38,7 +38,7 @@ class App extends Component {
     togglePersonsHandler = () => (this.setState({showPersons: !this.state.showPersons}))
 
     deletePersonHandler = personIndex => {
-        const persons = this.state.persons
+        const persons = [...this.state.persons]
         persons.splice(personIndex, 1)
         this.setState({persons: persons})
     }
